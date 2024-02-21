@@ -66,3 +66,32 @@ const scroll = new SmoothScroll('.nav__menu a[href*="#"]', {
 	speedAsDuration: true,
 	easing: 'easeInOutCubic',
 });
+
+const TEMPLATE_ID="template_ude88zg"
+const SERVICE_ID="service_a30x0fq"
+const PUBLIC_KEY="Cp8mVvbCpIjMibxOw"
+
+document.addEventListener('DOMContentLoaded', function() {
+	$('#myForm').on('submit', function(event) {
+		console.log('submit event called')
+		event.preventDefault(); // prevent reload
+	
+		const formData = new FormData(this);
+		formData.append('service_id', SERVICE_ID);
+		formData.append('template_id', TEMPLATE_ID);
+		formData.append('user_id', PUBLIC_KEY);
+	
+		console.log(formData);
+		$.ajax('https://api.emailjs.com/api/v1.0/email/send-form', {
+			type: 'POST',
+			data: formData,
+			contentType: false, // auto-detection
+			processData: false // no need to parse formData to string
+		}).done(function(res) {
+			console.log(res);
+			alert('Your mail is sent!');
+		}).fail(function(error) {
+			alert('Oops... ' + JSON.stringify(error));
+		});
+	});	
+})
